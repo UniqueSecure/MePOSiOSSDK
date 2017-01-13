@@ -1,7 +1,7 @@
 # MePOS Connect SDK iOS user guide V1.0
 
 The MePOS connect iOS SDK is designed to allow communication from any iOS 9 or iOS 10 capable device.
-This document is a reference on how to integrate to the MePOS unit into your own tablet application. This document does
+This document is a reference on how to integrate the MePOS unit into your own tablet application. This document does
 not include information on how to set up the MePOS unit, for this please refer to the documentation that came with your
 MePOS unit.
 
@@ -48,7 +48,7 @@ The MePOS connect SDK has been tested with the latest MePOS 2.8 firmware.
 ## Use of the MePOS connect SDK on IOs
 
 ## Version
-The current iOS library version is 1.0.0, details of the latest changes are in the release notes bundled with the iOS
+The current iOS library version is 1.0.0. Details of the latest changes are in the release notes bundled with the iOS
 SDK.
 
 ## Frameworks
@@ -69,7 +69,7 @@ The header files for the MePOS connect library must be referenced by your projec
 In the distribution zip file with the iOS SDK there are two libraries. One is for the simulator and one for iOS devices. You will need to add the relevant one to your project (Build Phases->Link Binary-> + -> Other).
 
 ## Creating a new MePOS object
-To create a new mepos object in your application you can use the following code in the viewDidLoad section of your code.
+To create a new MePOS object in your application you can use the following code in the viewDidLoad section of your code.
 
 ```
 (void)viewDidLoad {
@@ -82,7 +82,7 @@ m = [ComUniquesecureMeposconnectMePOS new];
 
 Once a MePOS object has been created there are several methods that can be executed that perform actions on the MePOS unit. The method names, syntax and usage are identical across the Windows and Android platform.
 
-The MePOS methods will return 0 if successful or 1 there is no connection to the MePOS, it is possible to query
+The MePOS methods will return 0 if successful or 1 if there is no connection to the MePOS, it is possible to query
 the connection state of the MePOS using the MePOSConnectionManager before a command is sent. During the
 initialisation of the MePOSConnectionManager the status may briefly read -1.
 
@@ -151,7 +151,7 @@ The raw print command allows the user to send ESC POS commands directly to the p
 
 ## (jint)printerBusy
 
-Print commands are sent to the printer asynchronously, print or printRAW will return immediately to prevent locking the UI thread on a tablet device. To control the tablet UI and prevent possible print buffer overflow it is possible to monitor the printer busy status. New receipts cannot not be printed unless the printerBusy method returns false.
+Print commands are sent to the printer asynchronously, print or printRAW will return immediately to prevent locking the UI thread on a tablet device. To control the tablet UI and prevent possible print buffer overflow it is possible to monitor the printer busy status. New receipts cannot be printed unless the printerBusy method returns false.
 
 ## (ComUniquesecureMeposconnectMePOSConnectionManager*)getConnectionManager
 
@@ -194,7 +194,7 @@ Gets the current IP address setting for the connection manager.
  withNSString:(NSString *)password
  ```
 Connects the MePOS unit to a WiFi network as a client. After performing a Wi-Fi connection the setConnectionIPAddress method must be called with the provided static IP address or the assigned DHCP IP address using the MePOSGetAssignedIP method. If the MePOS unit is being used as an access point, connecting
-to a Wi-Fi network will switch the MePOS to becoming a Wi-Fi client and the MePOS unit will no longer be a Wi-Fi access point. It is only possible to configure the WiFi module when the MePOS unit is plugged in via USB, a call to this method will return false if it is no USB connection is found.
+to a Wi-Fi network will switch the MePOS to becoming a Wi-Fi client and the MePOS unit will no longer be a Wi-Fi access point. It is only possible to configure the WiFi module when the MePOS unit is plugged in via USB, a call to this method will return false if no USB connection is found.
 
 Valid input parameters are:
 SSID – The SSID of the Wi-Fi network you are connecting to.
@@ -220,7 +220,7 @@ Gets the current IP address from the connected MePOS unit. When connected to Wi-
 
 Sets the MePOS unit in to access point mode. When entering access point mode, the MePOS unit will create its own Wi-Fi network with the SSID, encryption and password provided. In access point mode the MePOS unit will create the IP network 192.168.16.0 and will get the IP address 192.168.16.254. Clients connecting to the
 MePOS unit will be automatically assigned IP addresses via DHCP. If the MePOS unit is connected to a Wi-Fi network as a client, setting the MePOS unit in access point mode will remove the MePOS unit from any Wi-Fi networks it is connected to in client mode. It is only possible to configure the WiFi module when the MePOS
-unit is plugged in via USB, a call to this method will return false if it is no USB connection is found.
+unit is plugged in via USB, a call to this method will return false if no USB connection is found.
 
 SSID – The SSID of the Wi-Fi network you are creating.
 Encryption – The encryption type of the network you are creating, one of the following values NONE, WEP, WEP_OPEN, WPA_TKIP, WPA_AES, WPA2_TKIP, WPA2_AES, WPAWPA2_TKIP, WPAWPA2_AES
