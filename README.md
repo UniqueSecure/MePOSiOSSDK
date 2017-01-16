@@ -7,7 +7,7 @@ MePOS unit.
 
 ## Contents
 - [Supported tablet devices](#supported-tablet-devices)
-- [Supported MePOS devices](#supported-mepos-devices)
+- [Supported MePOS firmware](#supported-mepos-firmware)
 - [Use of the MePOS connect SDK on iOS](#use-of-the-mepos-connect-sdk-on-ios)
 - [Version](#version)
 - [Libraries](#libraries)
