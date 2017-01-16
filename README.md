@@ -41,7 +41,7 @@ MePOS unit.
 The MePOS connect library supports Android tablets and Windows PC’s via a USB and Wi-Fi connection. Due to the
 restrictions of the iOS platform it is not possible to connect to the MePOS unit via USB from an Apple device.
 
-## Supported MePOS devices
+## Supported MePOS firmware
 
 The MePOS connect SDK has been tested with the latest MePOS 2.8 firmware.
 
