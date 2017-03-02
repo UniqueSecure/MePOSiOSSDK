@@ -115,8 +115,29 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 # define SWIFT_UNAVAILABLE __attribute__((unavailable))
 #endif
 #if defined(__has_feature) && __has_feature(modules)
+@import ObjectiveC;
 #endif
 
 #pragma clang diagnostic ignored "-Wproperty-attribute-mismatch"
 #pragma clang diagnostic ignored "-Wduplicate-method-arg"
+
+SWIFT_CLASS("_TtC12meposconnect19MePOSDiagnosticLEDS")
+@interface MePOSDiagnosticLEDS : NSObject
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) NSInteger LED_POWER;)
++ (NSInteger)LED_POWER;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) NSInteger LED_NETWORK;)
++ (NSInteger)LED_NETWORK;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) NSInteger LED_TABLET;)
++ (NSInteger)LED_TABLET;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) NSInteger LED_PED;)
++ (NSInteger)LED_PED;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) NSInteger LED_PRINTER;)
++ (NSInteger)LED_PRINTER;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) NSInteger LED_USB1;)
++ (NSInteger)LED_USB1;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) NSInteger LED_USB2;)
++ (NSInteger)LED_USB2;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
 #pragma clang diagnostic pop

@@ -1,4 +1,4 @@
-# MePOS Connect SDK iOS user guide V1.0
+# MePOS Connect iOS SDK
 
 The MePOS connect iOS SDK is designed to allow communication from any iOS 9 or iOS 10 capable device.
 This document is a reference on how to integrate the MePOS unit into your own tablet application. This document does
@@ -8,34 +8,34 @@ MePOS unit.
 ## Contents
 - [Supported tablet devices](#supported-tablet-devices)
 - [Supported MePOS firmware](#supported-mepos-firmware)
-- [Use of the MePOS connect SDK on iOS](#use-of-the-mepos-connect-sdk-on-ios)
 - [Version](#version)
-- [Libraries](#libraries)
+- [Requirements](#requirements)
+- [Use of the MePOS connect SDK on iOS](#use-of-the-mepos-connect-sdk-on-ios)
+	- [Libraries](#libraries)
+	- [How to import the framework](#how-to-import-the-framework)
 - [Creating a new MePOS object](#creating-a-new-mepos-object)
 - [MePOS SDK Methods](#mepos-sdk-methods)
-- [int enableUSB()](#jintenableusb)
-- [int disableUSB()](#jintdisableusb)
-- [int enableWifi()](#voidenablewifi)
-- [int disableWifi()](#voiddisablewifi)
-- [int printRAW(String command)](#jintprintrawwithnsstringnsstring--rawdata)
-- [printerBusy()](#jintprinterbusy)
-- [MePOSConnectionManager getConnectionManager()](#comuniquesecuremeposconnectmeposconnectionmanagergetconnectionmanager)
-- [Open cashdrawer](#voidopencashdrawer)
-- [Print config page](#voidprintconfigpage)
-- [int getConnectionStatus()](#jintgetconnectionstatus)
-- [setConnectionIPAddress(string IPAddress)](#voidsetconnectionipaddresswithnsstringnsstringipaddress)
-- [String getConnectionIPAddress()](#nsstringgetconnectionipaddress)
-- [boolean MePOSConnectWiFi(String SSID, String IPAddress, String netmask, String encryption, String password)]()
-- [String MePOSGetAssignedIP()](#nsstringmeposgetassignedip)
-- [boolean MePOSSetAccessPoint(String SSID, String encryption, String password)]()
-- [MePOSReceipt](#comuniquesecuremeposconnectmeposreceipt)
-- [setCutType(int cutType)](#voidsetcuttypewithintjintcuttype)
-- [MePOSReceiptBarcodeLine(int type, String data)](#comuniquesecuremeposconnectmeposreceiptbarcodelinejinttype-withnsstringnsstringdata)
-- [MePOSReceiptFeedLine(int lines)](#comuniquesecuremeposconnectmeposreceiptfeedlinejintlines)
-- [MePOSReceiptImageLine(Bitmap image)](#comuniquesecuremeposconnectmeposreceiptsinglecharlinejcharchr)
-- [Text style constants](#text-style-constants)
-- [Text size constants](#text-size-constants)
-- [Text position constants](#text-position-constants)
+	- [public func openCashDrawer() throws -> Bool](#public-func-opencashdrawer)
+	- [public func openCashDrawer(validateCashDrawerStatus:Bool) throws -> Bool](#public-func-opencashdrawer-validatecashdrawerstatusbool-throws)
+	- [public func setDiagnosticLed(position:Int, colour:Int)]()
+	- [public func setCosmeticLedCol(colour:Int)]()
+	- [public func printerBusy() -> Bool]()
+	- [public func print(receipt: MePOSReceipt, callback: MePOSPrinterCallback?)]()
+	- [public func print(receipt: MePOSReceipt)]()
+	- [public func enableUSB() throws]()
+	- [public func disableUSB() throws]()
+- [MePOSReceipt](#meposreceipt)
+	- [public func setCutType(cutType:Int)]()
+	- [MePOSReceiptBarcodeLine(type:Int, data:String)]()
+	- [MePOSReceiptFeedLine(lines:Int)]()
+	- [MePOSReceiptImageLine(image:CIImage)]()
+	- [MePOSReceiptPriceLine(leftText:String, leftStyle:Int, rightText:String, rightStyle:Int)]()
+	- [MePOSReceiptSingleCharLine(chr:Character)]()
+	- [MePOSReceiptTextLine(text:String, style:Int, size:Int, position:Int)]()
+	- [Text style constants](#text-style-constants)
+	- [Text position constants](#text-position-constants)
+- [Sample Codes](#sample-codes)
+
 
 ## Supported tablet devices
 The MePOS connect library supports Android tablets and Windows PC’s via a USB and Wi-Fi connection. Due to the
@@ -43,266 +43,238 @@ restrictions of the iOS platform it is not possible to connect to the MePOS unit
 
 ## Supported MePOS firmware
 
-The MePOS connect SDK has been tested with the latest MePOS 2.8 firmware.
-
-## Use of the MePOS connect SDK on IOs
+The MePOS connect SDK has been tested with the latest MePOS 3.1 firmware.
 
 ## Version
-The current iOS library version is 1.0.0. Details of the latest changes are in the release notes bundled with the iOS
-SDK.
+The current version of the MePOS SDK for iOS is 1.0.0
 
-## Frameworks
-In the distribution zip file with the iOS SDK there is a frameworks folder. The 8 frameworks in this folder must
-be added to your Xcode project.
+## Requirements
+* iOS 9 or later
+* XCode 8.2.1
+* Swift 3
+
+## Use of the MePOS connect SDK on iOS
+
+### Libraries
+The MePOS connect SDK for iOS currently includes two flavors.
+
+* MePOS Connect for devices
+* MePOS Connect for simulator
+The MePOS connect library is provided as a folder (.framework) for use in XCode.
+
+### How to import the framework
+In this repository there are two frameworks folder. One of them must
+be added to your Xcode project, depending if you are testing in a simulator or a real device.
 
 This must be done in two places:
 
-1) Add the frameworks to your project (Build Phases -> Link Binary -> + -> Other).
+1) Add the framework to your project (Build Phases -> Link Binary -> + -> Other).
 
-2) Add the path to the frameworks to the library search paths (Build Settings->Search Paths->Library Search
+2) Add the path to the framework to the library search paths (Build Settings->Search Paths->Library Search
 Paths).
 
-## Includes
-The header files for the MePOS connect library must be referenced by your project. In the distribution zip file with the iOS SDK there is an include folder. Add these to your project (Build Settings->Search Paths->Header Search Paths).
-
-## Libraries
-In the distribution zip file with the iOS SDK there are two libraries. One is for the simulator and one for iOS devices. You will need to add the relevant one to your project (Build Phases->Link Binary-> + -> Other).
 
 ## Creating a new MePOS object
-To create a new MePOS object in your application you can use the following code in the viewDidLoad section of your code.
+To create a new MePOS object in your application you can use the following code:
 
-```
-(void)viewDidLoad {
-  [super viewDidLoad];
-m = [ComUniquesecureMeposconnectMePOS new];
-}
+```Swift
+var mePOS:MePOS = MePOS();
 ```
 
 ##MePOS SDK Methods
 
-Once a MePOS object has been created there are several methods that can be executed that perform actions on the MePOS unit. The method names, syntax and usage are identical across the Windows and Android platform.
+Once a MePOS object has been created there are several methods that can be executed that perform actions on the MePOS unit.
 
-The MePOS methods will return 0 if successful or 1 if there is no connection to the MePOS, it is possible to query
-the connection state of the MePOS using the MePOSConnectionManager before a command is sent. During the
-initialisation of the MePOSConnectionManager the status may briefly read -1.
+###public func openCashDrawer() throws -> Bool###
+Opens the cash drawer. Same as ```openCashDrawer(validateCashDrawerStatus:true)```
 
-**setLedOneColWithJavaLangInteger:(JavaLangInteger*)[NSNumber numberWithInt:int colour]**
+###public func openCashDrawer(validateCashDrawerStatus:Bool) throws -> Bool###
+Opens the cash drawer. If the ```validateCashDrawerStatus``` flag is ```True``` the SDK will validate if the cash drawer is already opened. If not, the relay signal will be sent.
+Returns true if the relay signal was sent, false if was prevented due of the validation.
 
-**setLedTwoColWithJavaLangInteger:(JavaLangInteger*)[NSNumber numberWithInt:int colour]**
+###public func setDiagnosticLed(position:Int, colour:Int)###
+sets die diagnostic leds to the position and color indicated. The color codes are shown in the ```MePOSColorCodes``` class:
 
-**setLedTwoColWithJavaLangInteger:(JavaLangInteger*)[NSNumber numberWithInt:int colour]**
-
-Will set one of the three diagnostic LED's on the MePOS unit to one of the following colours:
-
-0 = Black(off)
-
-1 = Green
-
-2 = Red
-
-3 = Amber
-
-**Note:** Between the development version and early versions of the MePOS unit the colours 1 and 2 (Green and Red are swapped).
-
-**(jint)setCosmeticLedColWithJavaLangInteger:(JavaLangInteger*)[NSNumber numberWithInt:int colour]**
-Will set the MePOS cosmetic LED to one of the following colours:
-
-- 0 = Black(off)
-- 1 = Blue
-- 2 = Green
-- 3 = Cyan
-- 4 = Red
-- 5 = Magenta
-- 6 = Yellow
-- 7 = White
-
-**(jint)printWithComUniquesecureMeposconnectMePOSReceipt:ComUniquesecureMeposconnectMePOSReceipt**
-
-Prints a pre-defined MePOS receipt using the built in receipt printer. To print a receipt, you must first create a MePOS receipt and add lines to it using the add command. This method will return 0 for success, 1 if no MePOS is connected or 2 if the printer is busy.
-
-The below example prints a single line receipt:
-
+```Swift
+	public static let LED_OFF:Int = 0;
+	public static let LED_GREEN:Int = 1;
+	public static let LED_RED:Int = 2;
+	public static let LED_AMBER:Int = 3;
 ```
-ComUniquesecureMeposconnectMePOSReceipt *r = [ComUniquesecureMeposconnectMePOSReceipt new];
- ComUniquesecureMeposconnectMePOSReceiptTextLine *l = [ComUniquesecureMeposconnectMePOSReceiptTextLine new];
-[l setTextWithNSString:@"TEST" withInt: 1 withInt: 1 withInt: 1];
-[r addLineWithComUniquesecureMeposconnectMePOSReceiptLine:l];
+Also the positions are referenced in the ```MePOSDiagnosticLEDS``` class:
 
- [m printWithComUniquesecureMeposconnectMePOSReceipt:r]
+```Swift
+	public static let LED_POWER:Int = 0;
+	public static let LED_NETWORK:Int = 1;
+	public static let LED_TABLET:Int = 2;
+	public static let LED_PED:Int = 3;
+	public static let LED_PRINTER:Int = 8;
+	public static let LED_USB1:Int = 9;
+	public static let LED_USB2:Int = 10;
 ```
 
-## (jint)enableUSB
+###public func setCosmeticLedCol(colour:Int)###
+
+Sets the cosmetic led to the color indicated shown in the ```MePOSColorCodes``` class:
+
+```Swift
+    public static let COSMETIC_OFF:Int = 0;
+    public static let COSMETIC_BLUE:Int = 1;
+    public static let COSMETIC_GREEN:Int = 2;
+    public static let COSMETIC_CYAN:Int = 3;
+    public static let COSMETIC_RED:Int = 4;
+    public static let COSMETIC_MAGENTA:Int = 5;
+    public static let COSMETIC_YELLOW:Int = 6;
+    public static let COSMETIC_WHITE:Int = 7;
+```
+
+###public func printerBusy() -> Bool###
+
+Asks to the MePOS if the device is printing.
+
+###public func print(receipt: MePOSReceipt, callback: MePOSPrinterCallback?)###
+
+Prints a predefined MePOS receipt using the built-in receipt printer API. To print a receipt, you must first create a MePOS receipt and add lines to it using the add command.
+
+The example below prints a single line receipt:
+
+```Swift
+	let receipt:MePOSReceipt = MePOSReceipt();
+	let textLine:MePOSReceiptTextLine = MePOSReceiptTextLine();
+	textLine.setText(text: "RECEIPT", style: MePOS.TEXT_STYLE_BOLD, size: MePOS.TEXT_SIZE_NORMAL, position: MePOS.TEXT_POSITION_CENTER);
+	receipt.addLine(line: textLine);
+	mepos.print(receipt: receipt, callback:self);
+```
+Note that you are asked to supply a ```MePOSPrinterCallback```. We recommend that you implement those methods to get notified when the MePOS starts printing a receipt, finished a receipt or there is an error during the printing process.
+
+###public func print(receipt: MePOSReceipt)###
+
+Same as ```print(receipt: receipt, callback: StubPrinterCallback());```
+
+###public func enableUSB() throws###
 
 Enables the USB ports on the MePOS device.
 
-## (jint)disableUSB
+###public func disableUSB() throws###
 
 Disables the USB ports on the MePOS device.
 
-## (void)enableWifi
 
-Enables the Wifi module on the MePOS device.
-
-## (void)disableWifi
-Disables the Wifi module on the MePOS device.
-## (jint)printRAWWithNSString:(NSString * )rawData
-
-The raw print command allows the user to send ESC POS commands directly to the printer without using the receipt builder. This function is useful if your epos system already prints using the ESC POS command set. This method will return 0 for success, 1 if no MePOS is connected or 2 if the printer is busy.
-
-## (jint)printerBusy
-
-Print commands are sent to the printer asynchronously, print or printRAW will return immediately to prevent locking the UI thread on a tablet device. To control the tablet UI and prevent possible print buffer overflow it is possible to monitor the printer busy status. New receipts cannot be printed unless the printerBusy method returns false.
-
-## (ComUniquesecureMeposconnectMePOSConnectionManager*)getConnectionManager
-
-Gets the MePOSConnectionManager for the current MePOS instance. The connection manager can be used to set up the Wi-Fi network on the MePOS unit and query the connection state of the MePOS unit.
-
-## (void)OpenCashDrawer
-Opens the MePOS cash drawer.
-
-## (void)PrintConfigPage
-
-Prints a printer config page.
-
-## ComUniquesecureMeposconnectMePOSConnectionManager
-
-The MePOSConnectionManager can be used to configure the connection settings for the MePOS unit and to configure the Wi-Fi module on a MePOS unit.
-
-## (jint)getConnectionStatus
-
-Gets the current connection state of the MePOS unit:
-
-- -1 = Not initialised
-- 0 = Not connected
-- 1 = Connected via USB (Not valid for iOS)
-- 2 = Connected via Wi-Fi
-
-**Note:** The USB connection to the MePOS unit will always take priority over Wi-Fi, to test the Wi-Fi connectivity the tablet must be disconnected from USB.
-
-## (void)setConnectionIPAddressWithNSString:(NSString*)IPAddress
-
-Sets the IP address on which the connection manager will look for a MePOS unit. The default IP address of the MePOS from the factory is 192.168.16.254, if the tablet is connecting to the MePOS as a client then you will not need to change this parameter unless the network settings on the MePOS unit have been changed.
-
-## (NSString*)getConnectionIPAddress;
-
-Gets the current IP address setting for the connection manager.
-```
-(jboolean)MePOSConnectWiFiWithNSString:(NSString *)SSID
- withNSString:(NSString *)IPAddress
- withNSString:(NSString *)netmask
- withNSString:(NSString *)encryption
- withNSString:(NSString *)password
- ```
-Connects the MePOS unit to a WiFi network as a client. After performing a Wi-Fi connection the setConnectionIPAddress method must be called with the provided static IP address or the assigned DHCP IP address using the MePOSGetAssignedIP method. If the MePOS unit is being used as an access point, connecting
-to a Wi-Fi network will switch the MePOS to becoming a Wi-Fi client and the MePOS unit will no longer be a Wi-Fi access point. It is only possible to configure the WiFi module when the MePOS unit is plugged in via USB, a call to this method will return false if no USB connection is found.
-
-Valid input parameters are:
-SSID – The SSID of the Wi-Fi network you are connecting to.
-
-IPAddress – A valid static IP Address e.g. 192.168.0.100 or DHCP to request a DHCP address from the network.
-
-Netmask – A valid network mask e.g. 255.255.255.0, if the IPAddress parameter was DHCP this parameter will be ignored.
-
-Encryption – The encryption type of the network you are connecting to, one of the following values NONE, WEP, WEP_OPEN, WPA_TKIP, WPA_AES, WPA2_TKIP, WPA2_AES, WPAWPA2_TKIP, WPAWPA2_AES
-
-Password - The password for the network you are connecting to. This can be left blank or will be ignored if the
-encryption type was set to NONE.
-
-## (NSString*)MePOSGetAssignedIP
-
-Gets the current IP address from the connected MePOS unit. When connected to Wi-Fi this will be either the statically provided IP address or the DHCP network assigned IP address. In access point mode this will be the default IP address of 192.168.16.254.
-```
-(jboolean)MePOSSetAccessPointWithNSString:(NSString *)SSID
-
- withNSString:(NSString *)encryption
- withNSString:(NSString *)password
- ```
-
-Sets the MePOS unit in to access point mode. When entering access point mode, the MePOS unit will create its own Wi-Fi network with the SSID, encryption and password provided. In access point mode the MePOS unit will create the IP network 192.168.16.0 and will get the IP address 192.168.16.254. Clients connecting to the
-MePOS unit will be automatically assigned IP addresses via DHCP. If the MePOS unit is connected to a Wi-Fi network as a client, setting the MePOS unit in access point mode will remove the MePOS unit from any Wi-Fi networks it is connected to in client mode. It is only possible to configure the WiFi module when the MePOS
-unit is plugged in via USB, a call to this method will return false if no USB connection is found.
-
-SSID – The SSID of the Wi-Fi network you are creating.
-Encryption – The encryption type of the network you are creating, one of the following values NONE, WEP, WEP_OPEN, WPA_TKIP, WPA_AES, WPA2_TKIP, WPA2_AES, WPAWPA2_TKIP, WPAWPA2_AES
-Password - The password for the network you are creating. This can be left blank or will be ignored if the encryption type was set to NONE.
-
-## ComUniquesecureMeposconnectMePOSReceipt
+## MePOSReceipt
 The MePOS library also contains the classes to define and print a receipt using the receipt printer.
 
 To create a new receipt, use the following code:
 
-```
-ComUniquesecureMeposconnectMePOSReceipt *r = [ComUniquesecureMeposconnectMePOSReceipt new];
+```Swift
+	let receipt:MePOSReceipt = Receipt();
 ```
 
-After the receipt has been initialised you can add lines to the receipt for printing. There are currently six types of line available to print on a receipt, these are detailed below.
+After the receipt has been initialised you can add lines to the receipt for printing.
 
-## (void)setCutTypeWithInt:(jint)cutType
+###public func setCutType(cutType:Int)###
+
 Specifies whether to perform a full or partial cut at the end of the receipt where the cut type is:
 
-- MePOS.CUT_TYPE_FULL
-- MePOS.CUT_TYPE_PARTIAL
+* `MePOS.CUT_TYPE_FULL`
+* `MePOS.CUT_TYPE_PARTIAL`
 
 Once the receipt has been created you can modify how the printer will cut the receipt after it has finished printing. As a default the printer is set to perform a full receipt cut.
 
-## ComUniquesecureMeposconnectMePOSReceiptBarcodeLine(jint)type withNSString:(NSString*)data;
+###MePOSReceiptBarcodeLine(type:Int, data:String)###
+The barcode line can be used to add a barcode to a receipt. There are currently three supported barcode types, UPC-A, Code 39 and PDF417. They are specified using the following constants:
 
-The barcode line can be used to add a barcode to a receipt. There are currently three supported barcode types,
-UPC-A, Code 39 and PDF417. They are specified using the following constants:
-- MePOS.BARCODE_TYPE_UPCA
-- MePOS.BARCODE_TYPE_CODE39
-- MePOS.BARCODE_TYPE_PDF417
+* `MePOS.BARCODE_TYPE_UPCA`
+* `MePOS.BARCODE_TYPE_CODE39`
+* `MePOS.BARCODE_TYPE_PDF417`
 
+The following example shows how to add a barcode to a receipt:
 
-## ComUniquesecureMeposconnectMePOSReceiptFeedLine(jint)lines
+```Swift
+	receipt.addLine(line: MePOSReceiptBarcodeLine(type:MePOS.BARCODE_TYPE_PDF417, data:"Hello World!"));
+```
+
+By default, the Barcode prints a human-interface readable string below, and a defined height of around 0.35 inches. If you want to customise the height or the hri, please use this constructor instead:
+
+```Swift
+	receipt.addLine(line: MePOSReceiptBarcodeLine(type: MePOS.BARCODE_TYPE_CODE39, hri:MePOS.BARCODE_HRI_NONE, height:0.50, data:"Hello World!"));
+```
+
+Please note that the height is **not customisable on PDF 417** barcodes.
+
+###MePOSReceiptFeedLine(lines:Int)###
 
 The feed line can be used to add whitespace to a receipt. The parameter supplied is the number of lines to feed.
 
-```
-ComUniquesecureMeposconnectMePOSReceiptPriceLine (NSString *)leftText
+The following example shows how to feed 10 lines on a receipt:
 
-withInt:(jint)leftStyle
- withNSString:(NSString *)rightText
- withInt:(jint)rightStyle
- ```
+```Swift
+	receipt.addLine(line:MePOSReceiptFeedLine(lines:10));
+```
+
+###MePOSReceiptImageLine(image:CIImage)###
+
+The image line can be used to print black and white raster graphics to the printer. The bitmap provided must be a valid Bitmap. The image size should be not less than 288 pixels wide.
+
+The following example shows how to add an image to a receipt:
+
+```Swift
+	let fileUrl:URL = Bundle.main.url(forResource: "my_logo", withExtension: "bmp")!;
+	let image:CIImage = CIImage(contentsOf: fileUrl)!;
+	receipt.addLine(line: MePOSReceiptImageLine(image: image));
+```
+
+###MePOSReceiptPriceLine(leftText:String, leftStyle:Int, rightText:String, rightStyle:Int)###
 
 The price line can be used to add a line to a receipt with text on the left and right simulating the common price item layout of many receipts. The price line takes parameters defining the text on the left and right and also the style of the text. Text styles are discussed later in this document.
 
-## ComUniquesecureMeposconnectMePOSReceiptSingleCharLine(jchar)chr
-The single character line can be used to fill a single line with the same character. The parameter is the character to repeat across the whole line.
+The following example shows how to add a price line to a receipt:
+
+```Swift
+	receipt.addLine(MePOSReceiptPriceLine(leftText:"Some item", leftStyle:MePOS.TEXT_STYLE_NONE, rightText:"Some price", rightStyle:MePOS.TEXT_STYLE_NONE))
 ```
-ComUniquesecureMeposconnectMePOSReceiptTextLine (NSString *)text
- withInt:(jint)style
- withInt:(jint)size
- withInt:(jint)position
- ```
+
+###MePOSReceiptSingleCharLine(chr:Character)###
+
+The single character line can be used to fill a single line with the same character. The parameter is the character to repeat across the whole line.
+
+The following example shows how to add a single character line to a receipt:
+
+```Swift
+	receipt.addLine(line:MePOSSingleCharLine(chr:"."))
+```
+
+###MePOSReceiptTextLine(text:String, style:Int, size:Int, position:Int)###
 
 The text line can be used to put text on a receipt on the left centre or right in different sizes or styles. The first parameter is the text to print, the size and position constants are discussed later in this document.
 
-## Text style constants
+The following example shows how to add a text line to a receipt:
 
-Some of the printer line commands accept a style parameter. This parameter can be any one of the following
+```Swift
+	receipt.addLine(line:MePOSReceiptTextLine(text:"Hello World!", style:MePOS.TEXT_STYLE_NONE, size:MePOS.TEXT_SIZE_NORMAL, position:MePOS.TEXT_POSITION_CENTER));
+```
 
-constants:
-- MePOS.TEXT_STYLE_NONE
-- MePOS.TEXT_STYLE_BOLD
-- MePOS.TEXT_STYLE_ITALIC
-- MePOS.TEXT_STYLE_UNDERLINED
-- MePOS.TEXT_STYLE_INVERSE
+###Text style constants###
 
-Text styles can also be combined using the or operator to achieve a mix of styles, for example to print bold italic text you would use the following:
+Some of the printer line commands accept a style parameter. This parameter can be any one of the following constants:
 
-- MePOS.TEXT_STYLE_BOLD | MePOS.TEXT_STYLE_ITALIC
+* `MePOS.TEXT_STYLE_NONE`
+* `MePOS.TEXT_STYLE_BOLD`
+* `MePOS.TEXT_STYLE_ITALIC`
+* `MePOS.TEXT_STYLE_UNDERLINED`
+* `MePOS.TEXT_STYLE_INVERSE`
 
-## Text size constants
-Some of the printer line commands accept a size constant. This can be one of the following but not both:
+Text styles can also be combined using the "or" operator to achieve a mix of styles, for example to print bold italic text you would use the following:
 
-- MePOS.TEXT_SIZE_NORMAL
-- MePOS.TEXT_SIZE_WIDE
+```MePOS.TEXT_STYLE_BOLD | MePOS.TEXT_STYLE_ITALIC```
 
-## Text position constants
+###Text position constants###
+
 Some of the printer line commands accept a position constant. This can be any of the following:
 
-- MePOS.TEXT_POSITION_LEFT
-- MePOS.TEXT_POSITION_CENTER
-- MePOS.TEXT_POSITION_RIGHT
+* `MePOS.TEXT_POSITION_LEFT`
+* `MePOS.TEXT_POSITION_CENTER`
+* `MePOS.TEXT_POSITION_RIGHT`
+
+##Sample Codes##
+
+- [MePOS Test iOS](https://github.com/UniqueSecure/MePOS-Test-iOS)

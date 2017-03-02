@@ -6,7 +6,7 @@
 	<dict>
 		<key>Headers/meposconnect-Swift.h</key>
 		<data>
-		9046MNU13NHpTkAFAgtpq3AnDLo=
+		13hFwTQFyJyBQaxTQfgL61AWcCY=
 		</data>
 		<key>Headers/meposconnect.h</key>
 		<data>
@@ -18,7 +18,7 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		eINXSVhBhaREBvrstE3kI+hZsZE=
+		535u8mnfQjZE//Yun5vRXoRjkfY=
 		</data>
 		<key>Modules/meposconnect.swiftmodule/i386.swiftdoc</key>
 		<data>
@@ -26,7 +26,7 @@
 		</data>
 		<key>Modules/meposconnect.swiftmodule/i386.swiftmodule</key>
 		<data>
-		CBXMR4LJP2ftYLEuDm4wi66bscI=
+		34shS8nRmzxxyfEHHnbKeYJF1bY=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -39,11 +39,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			9046MNU13NHpTkAFAgtpq3AnDLo=
+			13hFwTQFyJyBQaxTQfgL61AWcCY=
 			</data>
 			<key>hash2</key>
 			<data>
-			Qilj408Z8sWFEMpFXVTa0mmJzBRqZ5xHLhze50LQesY=
+			rj6No6H27YBzLiJa4OmHZUvr6aJcQ8WuXDokca6nLAE=
 			</data>
 		</dict>
 		<key>Headers/meposconnect.h</key>
@@ -83,11 +83,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			CBXMR4LJP2ftYLEuDm4wi66bscI=
+			34shS8nRmzxxyfEHHnbKeYJF1bY=
 			</data>
 			<key>hash2</key>
 			<data>
-			Et45CpNsFwwPrFCghxW6k4qAZdZPWasswvpxrxJfyq8=
+			ZTC+l6OSaDrlCJOV9oFPKgJgWQyABuWi07rU/qMBFc8=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>
