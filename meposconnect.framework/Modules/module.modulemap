@@ -1,0 +1,10 @@
+framework module meposconnect {
+  umbrella header "meposconnect.h"
+
+  export *
+  module * { export * }
+}
+
+module meposconnect.Swift {
+    header "meposconnect-Swift.h"
+}

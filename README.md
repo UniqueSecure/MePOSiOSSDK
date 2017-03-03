@@ -5,6 +5,8 @@ This document is a reference on how to integrate the MePOS unit into your own ta
 not include information on how to set up the MePOS unit, for this please refer to the documentation that came with your
 MePOS unit.
 
+The current documentation is a reference of the methods provided to use in Swift language.
+
 ## Contents
 - [Supported tablet devices](#supported-tablet-devices)
 - [Supported MePOS firmware](#supported-mepos-firmware)
@@ -46,27 +48,26 @@ restrictions of the iOS platform it is not possible to connect to the MePOS unit
 The MePOS connect SDK has been tested with the latest MePOS 3.1 firmware.
 
 ## Version
-The current version of the MePOS SDK for iOS is 1.0.0
+The current version of the MePOS SDK for iOS is 1.0.1
 
 ## Requirements
 * iOS 9 or later
 * XCode 8.2.1
-* Swift 3
+* Works in Swift 3 and Objective-C
 
 ## Use of the MePOS connect SDK on iOS
 
 ### Libraries
-The MePOS connect SDK for iOS currently includes two flavors.
+The MePOS connect SDK for iOS is provided as a folder (.framework) for use in XCode. This is a Universal library and should work under the following architectures:
 
-* MePOS Connect for devices
-* MePOS Connect for simulator
-The MePOS connect library is provided as a folder (.framework) for use in XCode.
+* i386
+* x86_64
+* arm_v7
+* arm64
 
 ### How to import the framework
-In this repository there are two frameworks folder. One of them must
-be added to your Xcode project, depending if you are testing in a simulator or a real device.
 
-This must be done in two places:
+Either if you use the framework in a device or a simulator this must be done in two places:
 
 1) Add the framework to your project (Build Phases -> Link Binary -> + -> Other).
 
@@ -77,9 +78,18 @@ Paths).
 ## Creating a new MePOS object
 To create a new MePOS object in your application you can use the following code:
 
+**Swift**
+
 ```Swift
-var mePOS:MePOS = MePOS();
+    var mePOS:MePOS = MePOS();
 ```
+
+**Objective-C**
+
+```objective-c
+    MePOS mepos = [[MePOS alloc] init];
+```
+
 
 ##MePOS SDK Methods
 
@@ -277,4 +287,5 @@ Some of the printer line commands accept a position constant. This can be any of
 
 ##Sample Codes##
 
-- [MePOS Test iOS](https://github.com/UniqueSecure/MePOS-Test-iOS)
+- [MePOS Test iOS (Swift)](https://github.com/UniqueSecure/MePOS-Test-iOS)
+- [MePOS Test iOS (Objective-C)](https://github.com/UniqueSecure/MePOS-Test-iOS-ObjC)
