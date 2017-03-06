@@ -208,6 +208,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) NSInteger CASH_DRAWE
 - (void)printWithReceipt:(MePOSReceipt * _Nonnull)receipt;
 - (BOOL)enableUSBAndReturnError:(NSError * _Nullable * _Nullable)error;
 - (BOOL)disableUSBAndReturnError:(NSError * _Nullable * _Nullable)error;
+- (void)printConfigPage;
 @end
 
 

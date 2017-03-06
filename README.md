@@ -24,6 +24,8 @@ The current documentation is a reference of the methods provided to use in Swift
 	- [public func printerBusy() -> Bool](#public-func-printerbusy---bool)
 	- [public func print(receipt: MePOSReceipt, callback: MePOSPrinterCallback?)](#public-func-printreceipt-meposreceipt-callback-meposprintercallback)
 	- [public func print(receipt: MePOSReceipt)](#public-func-printreceipt-meposreceipt)
+	- [public func printRaw(rawData:String) throws -> Bool](#public-func-printrawrawdatastring-throws---bool)
+	- [public func serialRaw(rawData:String) throws -> Bool](#public-func-serialrawrawdataString-throws---bool)
 	- [public func enableUSB() throws](#public-func-enableusb-throws)
 	- [public func disableUSB() throws](#public-func-disableusb-throws)
 - [MePOSReceipt](#meposreceipt)
@@ -160,6 +162,14 @@ Note that you are asked to supply a ```MePOSPrinterCallback```. We recommend tha
 ###public func print(receipt: MePOSReceipt)###
 
 Same as ```print(receipt: receipt, callback: StubPrinterCallback());```
+
+###public func printRaw(rawData:String) throws -> Bool###
+
+Prints raw data through the MePOS. Use this method if you want to send a custom POS message.
+
+###public func sendRaw(rawData:String) throws -> Bool###
+
+Sends data to the DE9 port
 
 ###public func enableUSB() throws###
 
