@@ -39,6 +39,7 @@ The current documentation is a reference of the methods provided to use in Swift
 	- [Text style constants](#text-style-constants)
 	- [Text position constants](#text-position-constants)
 - [Sample Codes](#sample-codes)
+- [Contact](#contact)
 
 
 ## Supported tablet devices
@@ -299,3 +300,7 @@ Some of the printer line commands accept a position constant. This can be any of
 
 - [MePOS Test iOS (Swift)](https://github.com/UniqueSecure/MePOS-Test-iOS)
 - [MePOS Test iOS (Objective-C)](https://github.com/UniqueSecure/MePOS-Test-iOS-ObjC)
+
+## Contact
+
+Please rise a ticket on [MePOS Support](https://mepos.zendesk.com/hc/en-us/requests/new)
