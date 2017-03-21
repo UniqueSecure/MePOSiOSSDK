@@ -98,14 +98,14 @@ To create a new MePOS object in your application you can use the following code:
 
 Once a MePOS object has been created there are several methods that can be executed that perform actions on the MePOS unit.
 
-###public func openCashDrawer() throws -> Bool###
+### public func openCashDrawer() throws -> Bool ###
 Opens the cash drawer. Same as ```openCashDrawer(validateCashDrawerStatus:true)```
 
-###public func openCashDrawer(validateCashDrawerStatus:Bool) throws -> Bool###
+### public func openCashDrawer(validateCashDrawerStatus:Bool) throws -> Bool ###
 Opens the cash drawer. If the ```validateCashDrawerStatus``` flag is ```True``` the SDK will validate if the cash drawer is already opened. If not, the relay signal will be sent.
 Returns true if the relay signal was sent, false if was prevented due of the validation.
 
-###public func setDiagnosticLed(position:Int, colour:Int)###
+### public func setDiagnosticLed(position:Int, colour:Int) ###
 sets die diagnostic leds to the position and color indicated. The color codes are shown in the ```MePOSColorCodes``` class:
 
 ```Swift
@@ -126,7 +126,7 @@ Also the positions are referenced in the ```MePOSDiagnosticLEDS``` class:
 	public static let LED_USB2:Int = 10;
 ```
 
-###public func setCosmeticLedCol(colour:Int)###
+### public func setCosmeticLedCol(colour:Int) ###
 
 Sets the cosmetic led to the color indicated shown in the ```MePOSColorCodes``` class:
 
@@ -141,11 +141,11 @@ Sets the cosmetic led to the color indicated shown in the ```MePOSColorCodes``` 
     public static let COSMETIC_WHITE:Int = 7;
 ```
 
-###public func printerBusy() -> Bool###
+### public func printerBusy() -> Bool ###
 
 Asks to the MePOS if the device is printing.
 
-###public func print(receipt: MePOSReceipt, callback: MePOSPrinterCallback?)###
+### public func print(receipt: MePOSReceipt, callback: MePOSPrinterCallback?) ###
 
 Prints a predefined MePOS receipt using the built-in receipt printer API. To print a receipt, you must first create a MePOS receipt and add lines to it using the add command.
 
@@ -160,23 +160,23 @@ The example below prints a single line receipt:
 ```
 Note that you are asked to supply a ```MePOSPrinterCallback```. We recommend that you implement those methods to get notified when the MePOS starts printing a receipt, finished a receipt or there is an error during the printing process.
 
-###public func print(receipt: MePOSReceipt)###
+### public func print(receipt: MePOSReceipt) ###
 
 Same as ```print(receipt: receipt, callback: StubPrinterCallback());```
 
-###public func printRaw(rawData:String) throws -> Bool###
+### public func printRaw(rawData:String) throws -> Bool ###
 
 Prints raw data through the MePOS. Use this method if you want to send a custom POS message.
 
-###public func sendRaw(rawData:String) throws -> Bool###
+### public func sendRaw(rawData:String) throws -> Bool ###
 
 Sends data to the DE9 port
 
-###public func enableUSB() throws###
+### public func enableUSB() throws ###
 
 Enables the USB ports on the MePOS device.
 
-###public func disableUSB() throws###
+### public func disableUSB() throws ###
 
 Disables the USB ports on the MePOS device.
 
