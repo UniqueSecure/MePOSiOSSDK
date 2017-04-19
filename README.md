@@ -1,6 +1,6 @@
 # MePOS Connect iOS SDK
 
-The MePOS connect iOS SDK is designed to allow communication from any iOS 9 or iOS 10 capable device.
+The MePOS connect iOS SDK is designed to allow communication from any iOS 8 or later capable device.
 This document is a reference on how to integrate the MePOS unit into your own tablet application. This document does
 not include information on how to set up the MePOS unit, for this please refer to the documentation that came with your
 MePOS unit.
@@ -54,9 +54,9 @@ The MePOS connect SDK has been tested with the latest MePOS 3.1 firmware.
 The current version of the MePOS SDK for iOS is 1.0.1
 
 ## Requirements
-* iOS 9 or later
-* XCode 8.2.1
-* Works in Swift 3 and Objective-C
+* iOS 8 or later
+* XCode 8.3.1
+* Works in Swift 3.2 and Objective-C
 
 ## Use of the MePOS connect SDK on iOS
 
