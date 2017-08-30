@@ -51,7 +51,7 @@ restrictions of the iOS platform it is not possible to connect to the MePOS unit
 The MePOS connect SDK has been tested with the latest MePOS 3.1 firmware.
 
 ## Version
-The current version of the MePOS SDK for iOS is 1.0.1
+The current version of the MePOS SDK for iOS is 1.0.2
 
 ## Requirements
 * iOS 8 or later

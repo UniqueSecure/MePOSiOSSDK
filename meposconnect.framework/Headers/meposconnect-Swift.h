@@ -221,7 +221,10 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) NSInteger CASH_DRAWE
 - (void)printWithReceipt:(MePOSReceipt * _Nonnull)receipt;
 - (BOOL)enableUSBAndReturnError:(NSError * _Nullable * _Nullable)error;
 - (BOOL)disableUSBAndReturnError:(NSError * _Nullable * _Nullable)error;
+- (BOOL)isMePOSConnected SWIFT_WARN_UNUSED_RESULT;
 - (void)printConfigPage;
+- (NSString * _Nonnull)getFWVersion SWIFT_WARN_UNUSED_RESULT;
+- (NSString * _Nonnull)getSerialNumber SWIFT_WARN_UNUSED_RESULT;
 @end
 
 
