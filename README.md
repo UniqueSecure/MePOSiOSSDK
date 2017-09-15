@@ -39,6 +39,7 @@ The current documentation is a reference of the methods provided to use in Swift
 	- [Text style constants](#text-style-constants)
 	- [Text position constants](#text-position-constants)
 - [Sample Codes](#sample-codes)
+- [MePOS PRO Emulator](#mepos-pro-emulator)
 - [Contact](#contact)
 
 
@@ -300,6 +301,9 @@ Some of the printer line commands accept a position constant. This can be any of
 
 - [MePOS Test iOS (Swift)](https://github.com/UniqueSecure/MePOS-Test-iOS)
 - [MePOS Test iOS (Objective-C)](https://github.com/UniqueSecure/MePOS-Test-iOS-ObjC)
+
+## MePOS PRO Emulator
+If you don't have a MePOS PRO unit you can download the MePOS PRO Emulator [here](http://sdk.mepos.io/MePOSEmulator_v_0_3.zip)
 
 ## Contact
 
