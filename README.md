@@ -1,4 +1,4 @@
-# MePOS Connect iOS SDK
+# MePOS Connect iOS SDK v1.1.0
 
 The MePOS connect iOS SDK is designed to allow communication from any iOS 8 or later capable device.
 This document is a reference on how to integrate the MePOS unit into your own tablet application. This document does
@@ -17,19 +17,30 @@ The current documentation is a reference of the methods provided to use in Swift
 	- [How to import the framework](#how-to-import-the-framework)
 - [Creating a new MePOS object](#creating-a-new-mepos-object)
 - [MePOS SDK Methods](#mepos-sdk-methods)
-	- [public func openCashDrawer() throws -> Bool](#public-func-opencashdrawer-throws---bool)
-	- [public func openCashDrawer(validateCashDrawerStatus:Bool) throws -> Bool](#public-func-opencashdrawervalidatecashdrawerstatusbool-throws---bool)
 	- [public func setDiagnosticLed(position:Int, colour:Int)](#public-func-setdiagnosticledpositionint-colourint)
 	- [public func setCosmeticLedCol(colour:Int)](#public-func-setcosmeticledcolcolourint)
 	- [public func printerBusy() -> Bool](#public-func-printerbusy---bool)
 	- [public func print(receipt: MePOSReceipt, callback: MePOSPrinterCallback?)](#public-func-printreceipt-meposreceipt-callback-meposprintercallback)
 	- [public func print(receipt: MePOSReceipt)](#public-func-printreceipt-meposreceipt)
 	- [public func printRaw(rawData:String) throws -> Bool](#public-func-printrawrawdatastring-throws---bool)
-	- [public func serialRaw(rawData:String) throws -> Bool](#public-func-serialrawrawdataString-throws---bool)
+	- [public func serialRaw(rawData:String) throws -> Bool](#public-func-serialrawrawdataString-throws---bool)	
+    - [public func cashDrawerStatus() -> Int](#public-func-cashdrawerstatus---int)
+	- [public func openCashDrawer() throws -> Bool](#public-func-opencashdrawer-throws---bool)
+	- [public func openCashDrawer(validateCashDrawerStatus:Bool) throws -> Bool](#public-func-opencashdrawervalidatecashdrawerstatusbool-throws---bool)
 	- [public func enableUSB() throws](#public-func-enableusb-throws)
 	- [public func disableUSB() throws](#public-func-disableusb-throws)
+	- [public func enableCosmeticLEDButton() throws](#public-func-enablecosmeticledbutton-throws)
+	- [public func disableCosmeticLEDButton() throws](#public-func-enablecosmeticledbutton-throws)
+	- [public func getFWVersion() -> String](#public-func-getfwversion---string)
+	- [public func getSerialNumber() -> String](#public-func-getserialnumber---string)
+- [MePOSConnectionManager](#meposconnectionmanager)
+	- [public func setConnectionIPAddress(IPAddress:String)](#public-func-setconnectionipaddressipaddressstring)
+	- [public func setConnectionPort(port:Int32)](#public-func-setconnectionportportint32)
 - [MePOSReceipt](#meposreceipt)
 	- [public func setCutType(cutType:Int)](#public-func-setcuttypecuttypeint)
+	- [public func setHeaderFeed(headerFeed:Int)](#public-func-setheaderfeedheaderfeedint)
+	- [public func setFooterFeed(footerFeed:Int)](#public-func-setfooterfeedfooterfeedint)
+	- [public func setFeedAfterCut(feedLines:Int)](#public-func-setfeedaftercutfeedlinesint)
 	- [MePOSReceiptBarcodeLine(type:Int, data:String)](#meposreceiptbarcodelinetypeint-datastring)
 	- [MePOSReceiptFeedLine(lines:Int)](#meposreceiptfeedlinelinesint)
 	- [MePOSReceiptImageLine(image:CIImage)](#meposreceiptpricelinelefttextstring-leftstyleint-righttextstring-rightstyleint)
@@ -37,6 +48,7 @@ The current documentation is a reference of the methods provided to use in Swift
 	- [MePOSReceiptSingleCharLine(chr:Character)](#meposreceiptsinglecharlinechrcharacter)
 	- [MePOSReceiptTextLine(text:String, style:Int, size:Int, position:Int)](#meposreceipttextlinetextstring-styleint-sizeint-positionint)
 	- [Text style constants](#text-style-constants)
+	- [Text size constants](#text-size-constants)
 	- [Text position constants](#text-position-constants)
 - [Sample Codes](#sample-codes)
 - [MePOS PRO Emulator](#mepos-pro-emulator)
@@ -52,7 +64,7 @@ restrictions of the iOS platform it is not possible to connect to the MePOS unit
 The MePOS connect SDK has been tested with the latest MePOS 3.1 firmware.
 
 ## Version
-The current version of the MePOS SDK for iOS is 1.0.2
+The current version of the MePOS SDK for iOS is 1.1.0
 
 ## Requirements
 * iOS 8 or later
@@ -85,7 +97,13 @@ To create a new MePOS object in your application you can use the following code:
 **Swift**
 
 ```Swift
-    var mePOS:MePOS = MePOS();
+    var mePOS:MePOS = MePOS()
+```
+
+To communicate with a generic ESC/POS thermal printer you can use:
+
+```Swift
+	var mePOS:MePOS = MePOS(withMePOSType:MePOSConnectionType.GENERIC_WIFI)
 ```
 
 **Objective-C**
@@ -99,15 +117,8 @@ To create a new MePOS object in your application you can use the following code:
 
 Once a MePOS object has been created there are several methods that can be executed that perform actions on the MePOS unit.
 
-### public func openCashDrawer() throws -> Bool ###
-Opens the cash drawer. Same as ```openCashDrawer(validateCashDrawerStatus:true)```
-
-### public func openCashDrawer(validateCashDrawerStatus:Bool) throws -> Bool ###
-Opens the cash drawer. If the ```validateCashDrawerStatus``` flag is ```True``` the SDK will validate if the cash drawer is already opened. If not, the relay signal will be sent.
-Returns true if the relay signal was sent, false if was prevented due of the validation.
-
 ### public func setDiagnosticLed(position:Int, colour:Int) ###
-sets die diagnostic leds to the position and color indicated. The color codes are shown in the ```MePOSColorCodes``` class:
+sets the diagnostic leds to the position and color indicated. The color codes are shown in the ```MePOSColorCodes``` class:
 
 ```Swift
 	public static let LED_OFF:Int = 0;
@@ -126,7 +137,6 @@ Also the positions are referenced in the ```MePOSDiagnosticLEDS``` class:
 	public static let LED_USB1:Int = 9;
 	public static let LED_USB2:Int = 10;
 ```
-
 ### public func setCosmeticLedCol(colour:Int) ###
 
 Sets the cosmetic led to the color indicated shown in the ```MePOSColorCodes``` class:
@@ -173,6 +183,16 @@ Prints raw data through the MePOS. Use this method if you want to send a custom 
 
 Sends data to the DE9 port
 
+### public func cashDrawerStatus() -> Int ###
+Asks the status of the cash drawer if it's opened or closed.
+
+### public func openCashDrawer() throws -> Bool ###
+Opens the cash drawer. Same as ```openCashDrawer(validateCashDrawerStatus:true)```
+
+### public func openCashDrawer(validateCashDrawerStatus:Bool) throws -> Bool ###
+Opens the cash drawer. If the ```validateCashDrawerStatus``` flag is ```True``` the SDK will validate if the cash drawer is already opened. If not, the relay signal will be sent.
+Returns true if the relay signal was sent, false if was prevented due of the validation.
+
 ### public func enableUSB() throws ###
 
 Enables the USB ports on the MePOS device.
@@ -181,6 +201,33 @@ Enables the USB ports on the MePOS device.
 
 Disables the USB ports on the MePOS device.
 
+### public func enableCosmeticLEDButton() throws ###
+
+Enables the cosmetic LED button to thange the cosmetic colors
+
+### public func disableCosmeticLEDButton() throws ###
+
+Disables the cosmetic LED button to prevent color changes
+
+### public func getFWVersion() -> String ###
+
+Gets the firmware version of the MePOS instance
+
+### public func getSerialNumber() -> String ###
+
+Gets the serial number of the MePOS instance
+
+## MePOSConnectionManager ##
+
+The MePOSConnectionManager can be used to configure the connection settings for the MePOS unit.
+
+### public func setConnectionIPAddress(IPAddress:String) ###
+
+Sets the IP address on which the connection manager will look for a MePOS unit. The default IP address of the MePOS from the factory is 192.168.16.254, if the tablet is connecting to the MePOS as a client then you will not need to change this parameter unless the network settings on the MePOS unit have been changed.
+
+### public func setConnectionPort(port:Int32) ###
+
+Sets the tcp port on which the connection manager will look for a MePOS unit. The default port is 8080, but if you are controlling a generic esc/pos device you might want to change it to 9100.
 
 ## MePOSReceipt
 The MePOS library also contains the classes to define and print a receipt using the receipt printer.
@@ -188,7 +235,7 @@ The MePOS library also contains the classes to define and print a receipt using 
 To create a new receipt, use the following code:
 
 ```Swift
-	let receipt:MePOSReceipt = Receipt();
+	let receipt:MePOSReceipt = MePOSReceipt();
 ```
 
 After the receipt has been initialised you can add lines to the receipt for printing.
@@ -201,6 +248,20 @@ Specifies whether to perform a full or partial cut at the end of the receipt whe
 * `MePOS.CUT_TYPE_PARTIAL`
 
 Once the receipt has been created you can modify how the printer will cut the receipt after it has finished printing. As a default the printer is set to perform a full receipt cut.
+
+By configuring this value as `MePOS.CUT_TYPE_PARTIAL` the `feedAfterCut` will override internally to 4 lines. if you need to specify the number of lines after the paper cut you'll need to call [setFeedAfterCut(int feedLines)](#setfeedaftercutint-feedlines) after the cut type configuration.
+
+### public func setHeaderFeed(headerFeed:Int) ###
+
+Specifies the number of feed lines before starting to print the receipt content. As a default is configured to 0 lines.
+
+### public func setFooterFeed(footerFeed:Int) ###
+
+Specifies the number of feed lines after printing the receipt, but before the paper cut. As a default is configured to 12 lines.
+
+### public func setFeedAfterCut(feedLines:Int) ###
+
+Specifies the number of feed lines after cutting the receipt. As a default is configured to 0 lines.
 
 ###MePOSReceiptBarcodeLine(type:Int, data:String)###
 The barcode line can be used to add a barcode to a receipt. There are currently three supported barcode types, UPC-A, Code 39 and PDF417. They are specified using the following constants:
@@ -288,6 +349,12 @@ Some of the printer line commands accept a style parameter. This parameter can b
 Text styles can also be combined using the "or" operator to achieve a mix of styles, for example to print bold italic text you would use the following:
 
 ```MePOS.TEXT_STYLE_BOLD | MePOS.TEXT_STYLE_ITALIC```
+
+### Text size constants ###
+Some of the printer line commands accept a size constant. This can be one of the following but not both:
+
+* `MePOS. TEXT_SIZE_NORMAL `
+* `MePOS. TEXT_SIZE_WIDE `
 
 ###Text position constants###
 
